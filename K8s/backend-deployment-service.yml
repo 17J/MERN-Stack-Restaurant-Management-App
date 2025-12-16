@@ -26,7 +26,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: backend-container
-          image: 17rj/backend-restaurant-mern:v1.0.0 # Use specific tags
+          image: 17rj/backend-restaurant-mern:latest # Use specific tags
           ports:
             - containerPort: 5000
 
@@ -77,21 +77,34 @@ spec:
                   name: mern-app-config
                   key: jwt-expires-in
 
+          startupProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 10 # Wait 10s before first check
+            periodSeconds: 5 # Check every 5s
+            timeoutSeconds: 3
+            failureThreshold:
+              20 # Allow 20 failures = 100s total startup time
+              #successThreshold: 1
+
           # Health Probes for Node.js API
           livenessProbe:
             httpGet:
-              path: /health # Assuming you have a /health endpoint
+              path: / # Assuming you have a /health endpoint
               port: 5000
-            initialDelaySeconds: 15
+            initialDelaySeconds: 0
             periodSeconds: 10
+            timeoutSeconds: 3
             failureThreshold: 3
 
           readinessProbe:
             httpGet:
-              path: /ready
+              path: /
               port: 5000
             initialDelaySeconds: 5
             periodSeconds: 5
+            timeoutSeconds: 3
             failureThreshold: 2
 
 ---

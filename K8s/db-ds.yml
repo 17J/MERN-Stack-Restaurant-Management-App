@@ -92,7 +92,7 @@ spec:
         name: mongo-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: gp3 # Use a high-performance storage class
+        storageClassName: standard # Use a high-performance storage class  gp3
         resources:
           requests:
             storage: 20Gi # Increased storage to 20Gi for production data

@@ -25,9 +25,9 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: frontend-container
-          image: 17rj/frontend-restaurant-mern:v1.0.0 # Use specific tags
+          image: 17rj/frontend-restaurant-mern:latest # Use specific tags
           ports:
-            - containerPort: 3000
+            - containerPort: 80
 
           # Resource Management for Frontend/Webserver
           resources:
@@ -46,19 +46,29 @@ spec:
                   name: mern-app-config
                   key: frontend-api-url
 
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10 # Wait 10s before first check
+            periodSeconds: 5 # Check every 5s
+            timeoutSeconds: 3
+            failureThreshold: 20 # Allow 20 failures = 100s total startup time
+            successThreshold: 1
+
           # Health Probes for the Webserver
           livenessProbe:
             httpGet:
               path: /
-              port: 3000
-            initialDelaySeconds: 30
+              port: 80
+            initialDelaySeconds: 0
             periodSeconds: 10
             failureThreshold: 3
 
           readinessProbe:
             httpGet:
               path: /
-              port: 3000
+              port: 80
             initialDelaySeconds: 5
             periodSeconds: 5
             failureThreshold: 2
