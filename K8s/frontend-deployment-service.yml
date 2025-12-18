@@ -10,7 +10,7 @@ metadata:
     app: frontend
     environment: production
 spec:
-  replicas: 3 # High availability
+  replicas: 1 # High availability
   selector:
     matchLabels:
       app: frontend

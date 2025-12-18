@@ -13,7 +13,7 @@ metadata:
 spec:
   # Use 3 replicas for a robust MongoDB replica set (for high availability)
   serviceName: mongo-svc # Must match the Headless Service name
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: mongo
