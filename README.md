@@ -1,6 +1,6 @@
 # Full-Stack Restaurant Management Application
 
-A production-ready **MERN Stack** restaurant management application with comprehensive features for menu management, order processing, and user authentication, deployed on **Kubernetes**.
+A  **MERN Stack** restaurant management application with comprehensive features for menu management, order processing, and user authentication, deployed on **Kubernetes**.
 
 ## 🏗️ Architecture
 
