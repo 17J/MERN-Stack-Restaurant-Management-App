@@ -449,13 +449,10 @@ kubectl delete configmap mern-app-config -n restaurant-app
 ## 📸 Application Screenshots
 
 <p align="center">
-    <img src="snapshot/restra.jpg" alt="Home Page" width="45%"/>
-    <img src="snapshot/resta_menu.jpg" alt="Menu Page" width="45%"/>
-</p>
-
-<p align="center">
-    <img src="snapshot/rest_login.jpg" alt="Login Page" width="45%"/>
-    <img src="snapshot/resta_register.jpg" alt="Register Page" width="45%"/>
+    <img src="snapshot/restra.jpg" alt="Home Page" width="100%"/>
+    <img src="snapshot/resta_menu.jpg" alt="Menu Page" width="100%"/>
+    <img src="snapshot/rest_login.jpg" alt="Login Page" width="100%"/>
+    <img src="snapshot/resta_register.jpg" alt="Register Page" width="100%"/>
 </p>
 
 ---
