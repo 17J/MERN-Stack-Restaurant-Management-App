@@ -1,12 +1,12 @@
 # Full-Stack Restaurant Management Application
 
-A  **MERN Stack** restaurant management application with comprehensive features for menu management, order processing, and user authentication, deployed on **Kubernetes**.
+A **MERN Stack** restaurant management application with comprehensive features for menu management, order processing, and user authentication, deployed on **Kubernetes**.
 
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────┐
-│   Frontend      │  React + Redux (Port 80)
+│   Frontend      │  Nginx (Port 80)
 │ (Nginx/Vite)    │  User Interface
 └────────┬────────┘
          │
@@ -113,7 +113,11 @@ kubectl get storageclass
 kubectl get pods -n ingress-nginx
 
 # If Ingress Controller not installed:
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/kind/deploy.yaml  # for kind cluster
+sleep 120
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml  # for AKS/EKS/GKE cluster
+sleep 120
 ```
 
 ---
@@ -123,8 +127,8 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/17J/Full-Stack-Restaurant-Management-App.git
-cd Full-Stack-Restaurant-Management-App
+git clone https://github.com/17J/MERN-Stack-Restaurant-Management-App.git
+cd MERN-Stack-Restaurant-Management-App
 ```
 
 ### Step 2: Create Namespace
@@ -140,7 +144,7 @@ kubectl config set-context --current --namespace=restaurant-app
 
 **Important:** Replace the default secrets with your own secure values before deploying to production.
 
-**: Use provided secrets file**
+**: Use provided secrets and configmap file**
 
 ```bash
 kubectl apply -f k8s/secrets-configmap.yml -n restaurant-app
@@ -151,9 +155,6 @@ kubectl apply -f k8s/secrets-configmap.yml -n restaurant-app
 The ConfigMap contains non-sensitive application configuration:
 
 ```bash
-# Apply the ConfigMap
-kubectl apply -f k8s/secrets-configmap.yml -n restaurant-app
-
 # Verify ConfigMap
 kubectl get configmap mern-app-config -n restaurant-app -o yaml
 ```
@@ -402,6 +403,16 @@ kubectl logs -l app=mongo -n restaurant-app --tail=50
 
 # Follow logs in real-time
 kubectl logs -f deployment/backend-deployment -n restaurant-app
+```
+
+### Auto-Scaling(HPA)
+
+```bash
+# Enable metrics server (if not already installed)
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+# Create HPA
+kubectl autoscale deployment backend --cpu-percent=70 --min=2 --max=10 -n restaurant-app
 ```
 
 ---
